@@ -212,9 +212,11 @@ function module.IsReplicatedAsync(Instance:Instance, Targets:{Player}):{[Player]
         coroutine.resume(OtherThread, Thread)
         Event:FireClient(Player, "AsyncCheck", ID)
         SendBack[Player] = coroutine.yield()
-
         if coroutine.status(OtherThread) ~= "dead" then
             coroutine.close(OtherThread)
+        end
+        if SendBack[Player] ~= true and module.TrackedPlayers[Player][ID] == true then
+            module.TrackedPlayers[Player][ID] = nil
         end
     end
     return SendBack
