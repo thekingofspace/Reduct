@@ -57,7 +57,7 @@ local Switch = {
     end,
 
     AsyncCheck = function(ID:string)
-        Event:FireServer("asyncUpdate", ID, module.TrackedInstances[ID] == true)
+        Event:FireServer("asyncUpdate", ID, module.TrackedInstances[ID] ~= nil)
     end,
 
     default = function(...)
