@@ -200,6 +200,7 @@ end
 
 function module.IsReplicatedAsync(Instance:Instance, Targets:{Player}):{[Player]:boolean}
     local SendBack = {}
+    local Trackers = module.TrackedPlayers
     SetupObject(Instance)
     local ID = module.UID_Registry[Instance]
     for _, Player in ipairs(Targets) do
@@ -215,8 +216,8 @@ function module.IsReplicatedAsync(Instance:Instance, Targets:{Player}):{[Player]
         if coroutine.status(OtherThread) ~= "dead" then
             coroutine.close(OtherThread)
         end
-        if SendBack[Player] ~= true and module.TrackedPlayers[Player][ID] == true then
-            module.TrackedPlayers[Player][ID] = nil
+        if SendBack[Player] ~= true and Trackers[Player] and Trackers[Player][ID] == true then
+            Trackers[Player][ID] = nil
         end
     end
     return SendBack
